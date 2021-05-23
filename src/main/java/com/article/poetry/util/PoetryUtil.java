@@ -1,4 +1,4 @@
-package com.poetry.article.util;
+package com.article.poetry.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

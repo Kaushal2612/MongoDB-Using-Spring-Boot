@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.article.poetry.exception.ArticleException;
 import com.article.poetry.model.User;
 import com.article.poetry.repository.ArticleRepository;
-import com.poetry.article.util.PoetryUtil;
+import com.article.poetry.util.PoetryUtil;
 
 /**
  * This class implement the services for User operation
