@@ -22,10 +22,6 @@ import com.article.poetry.util.PoetryUtil;
 @Service
 public class ArticleServiceImpl implements ArticleService{
 
-	public ArticleServiceImpl() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Autowired
 	private ArticleRepository articleRepository;
 	
@@ -50,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService{
 	public List<User> getAllUser() {
 		
 		List<User> userList = articleRepository.findAll();
-		if(userList.size()>0) {
+		if(!userList.isEmpty()) {
 			return userList;
 		}
 		return new ArrayList<User>();
@@ -64,18 +60,19 @@ public class ArticleServiceImpl implements ArticleService{
 			return userOptional.get();
 		}
 		else {
-			throw new ArticleException(ArticleException.UserNotFoundException(userOptional.get().getName()));
+			throw new ArticleException(ArticleException.UserNotFoundException(id));
 		}
 
 	}
 
+	/**
+	 * This method is first searching by unique Id, if not found then by Mongodb Id and updating it
+	 */
 	@Override
 	public User updateUser(String id, User userBodyReceived) throws ArticleException {
 
-		// search by our unique Id
 		Optional<User> userOptional = articleRepository.findByUniqueId(id);
 		
-		// search by mongodbId;
 		if(!userOptional.isPresent()) {
 			userOptional = articleRepository.findById(id);
 		}

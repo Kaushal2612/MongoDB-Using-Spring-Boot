@@ -20,11 +20,15 @@ import com.article.poetry.model.User;
 import com.article.poetry.repository.ArticleRepository;
 import com.article.poetry.service.ArticleService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * This class is to handle the User CRUD operation
  * @author Kaushal Jhawar
  *
  */
+@Api(value = "Operation pertaining to user")
 @RestController
 public class ArticleController {
 
@@ -38,6 +42,7 @@ public class ArticleController {
 	 * Retrieve All User
 	 * @return
 	 */
+	@ApiOperation(value = "Get the list of User", tags = "getAllUser()")
 	@GetMapping("/readUser")
 	public ResponseEntity<?> readAllUser(){
 		
@@ -51,6 +56,7 @@ public class ArticleController {
 	 * @param user
 	 * @return
 	 */
+	@ApiOperation(value = "Create User", tags = "createUser()")
 	@PostMapping("/createUser")
 	public ResponseEntity<?> createUser(@RequestBody User user){
 		try {
@@ -68,6 +74,7 @@ public class ArticleController {
 	 * @param id
 	 * @return
 	 */
+	@ApiOperation(value = "get one user information", response=User.class, tags = "getOneUser()")
 	@GetMapping("readUser/{id}")
 	public ResponseEntity<?> readOneUser(@PathVariable String id){
 
@@ -78,6 +85,13 @@ public class ArticleController {
 		}
 	}
 	
+	/**
+	 * Delete the user by user id
+	 * @param id
+	 * @param userBodyReceived
+	 * @return
+	 */
+	@ApiOperation(value = "update the user information", tags = "updateUser()")
 	@PutMapping("updateUser/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody User userBodyReceived){
 
@@ -96,6 +110,7 @@ public class ArticleController {
 	 * @param id
 	 * @return
 	 */
+	@ApiOperation(value = "delete the user information", tags = "deleteOneUser()")
 	@DeleteMapping("deleteUser/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable("id") String id){
 		

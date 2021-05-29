@@ -2,6 +2,7 @@ package com.article.poetry.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -9,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,19 +33,22 @@ public class User {
 	private String id;
 
 	@Field("id")
-	// @Indexed(unique = true)
 	private String uniqueId;
 
+	@Email(regexp = ".*@.*\\..*", message = "Email should be valid")
+	@ApiModelProperty(notes = "Email of the User", name = "email", required = true)
 	@NotEmpty(message = "Email cannot be empty")
 	@NotNull(message = "Email cannot be null")
 	private String email;
 
+	@ApiModelProperty(notes = "Name of the User", name = "name", required = true)
 	@NotEmpty(message = "Name cannot be empty")
 	@NotNull(message = "Name cannot be null")
 	private String name;
 
 	private String description;
 
+	@ApiModelProperty(notes = "Date of birth of User", name = "Date of Birth")
 	private Date dob;
 
 }

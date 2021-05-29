@@ -17,7 +17,7 @@ public interface ArticleRepository extends MongoRepository<User, String> {
 	@Query("{'id': ?0 }")
 	Optional<User> findById(String id);
 
-	@Query("{'uniqueId': ?0 }")
+	@Query(value = "{'uniqueId': ?0 }", delete = true)
 	Optional<User> deleteByUniqueId(String id);
 
 	@Query("{'name': ?0 }")

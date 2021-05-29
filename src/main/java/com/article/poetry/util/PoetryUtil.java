@@ -5,12 +5,12 @@ import java.util.Calendar;
 
 import org.apache.commons.lang.RandomStringUtils;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class PoetryUtil {
 
-	public PoetryUtil() {
-		
-	}
-
+	
 	/**
 	 * Generate Random Id
 	 * @return
