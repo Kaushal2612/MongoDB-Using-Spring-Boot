@@ -7,6 +7,10 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +20,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.article.poetry.exception.ArticleException;
+import com.article.poetry.model.AuthenticationRequest;
+import com.article.poetry.model.AuthenticationResponse;
 import com.article.poetry.model.User;
 import com.article.poetry.repository.ArticleRepository;
 import com.article.poetry.service.ArticleService;
+import com.article.poetry.service.JwtUtil;
+import com.article.poetry.service.MyUserDetailsService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 /**
  * This class is to handle the User CRUD operation
@@ -38,11 +47,21 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtUtil jwtTokenUtil;
+
+	@Autowired
+	private MyUserDetailsService userDetailsService;
+
+	
 	/**
 	 * Retrieve All User
 	 * @return
 	 */
-	@ApiOperation(value = "Get the list of User", tags = "getAllUser()")
+	@ApiOperation(value = "Get the list of User", tags = "getAllUser()", authorizations = { @Authorization(value="Bearer") })
 	@GetMapping("/readUser")
 	public ResponseEntity<?> readAllUser(){
 		
@@ -121,6 +140,27 @@ public class ArticleController {
 		catch(Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@PostMapping(value = "/authenticate")
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+
+		try {
+			authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
+			);
+		}
+		catch (BadCredentialsException e) {
+			throw new Exception("Incorrect username or password", e);
+		}
+
+
+		final UserDetails userDetails = userDetailsService
+				.loadUserByUsername(authenticationRequest.getUsername());
+
+		final String jwt = jwtTokenUtil.generateToken(userDetails);
+
+		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}
 	
 }
