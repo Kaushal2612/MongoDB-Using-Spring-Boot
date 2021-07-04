@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.article.poetry.exception.ArticleException;
@@ -25,6 +26,9 @@ public class ArticleServiceImpl implements ArticleService{
 	@Autowired
 	private ArticleRepository articleRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	/**
 	 * Create the user
 	 */
@@ -37,6 +41,7 @@ public class ArticleServiceImpl implements ArticleService{
 		}
 		else {
 			user.setUniqueId(PoetryUtil.generateUniqueId());
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			articleRepository.save(user);
 		}
 		
@@ -86,6 +91,8 @@ public class ArticleServiceImpl implements ArticleService{
 			userToUpdate.setEmail(userBodyReceived.getEmail()!=null ? userBodyReceived.getEmail() : userToUpdate.getEmail());
 			// update Name
 			userToUpdate.setName(userBodyReceived.getName()!=null ? userBodyReceived.getName() : userToUpdate.getName());
+			// update Password
+			userToUpdate.setPassword(userBodyReceived.getPassword()!=null ? bCryptPasswordEncoder.encode(userBodyReceived.getPassword()) : bCryptPasswordEncoder.encode(userToUpdate.getPassword()));
 			// update Description
 			userToUpdate.setDescription(userBodyReceived.getDescription()!=null ? userBodyReceived.getDescription() : userToUpdate.getDescription());
 			// update dob

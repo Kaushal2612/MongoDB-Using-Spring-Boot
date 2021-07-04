@@ -23,4 +23,7 @@ public interface ArticleRepository extends MongoRepository<User, String> {
 	@Query("{'name': ?0 }")
 	Optional<User> findByName(String id);
 
+	@Query("{'email': ?0 }")
+	Optional<User> findByEmail(String id);
+
 }

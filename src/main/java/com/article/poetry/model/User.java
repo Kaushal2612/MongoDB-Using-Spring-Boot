@@ -46,6 +46,11 @@ public class User {
 	@NotNull(message = "Name cannot be null")
 	private String name;
 
+	@ApiModelProperty(notes = "Password of the User", name = "password", required = true)
+	@NotEmpty(message = "Password cannot be empty")
+	@NotNull(message = "Password cannot be null")
+	private String password;
+	
 	private String description;
 
 	@ApiModelProperty(notes = "Date of birth of User", name = "Date of Birth")

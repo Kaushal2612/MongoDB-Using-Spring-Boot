@@ -18,6 +18,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.article.poetry.service.JwtUtil;
 import com.article.poetry.service.MyUserDetailsService;
 
+/**
+ * Get the Authorization from the header parameter and filter the jwt token
+ * @author nehaj
+ *
+ */
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 

@@ -56,7 +56,6 @@ public class ArticleController {
 	@Autowired
 	private MyUserDetailsService userDetailsService;
 
-	
 	/**
 	 * Retrieve All User
 	 * @return
@@ -75,12 +74,17 @@ public class ArticleController {
 	 * @param user
 	 * @return
 	 */
-	@ApiOperation(value = "Create User", tags = "createUser()")
-	@PostMapping("/createUser")
+	@ApiOperation(value = "Sign Up", tags = "createUser()")
+	@PostMapping("/signUp")
 	public ResponseEntity<?> createUser(@RequestBody User user){
 		try {
 			articleService.createUser(user);
-			return new ResponseEntity<User>(user, HttpStatus.OK);
+			final UserDetails userDetails = userDetailsService
+					.loadUserByUsername(user.getEmail());
+
+			final String jwt = jwtTokenUtil.generateToken(userDetails);
+			return ResponseEntity.ok(new AuthenticationResponse(jwt));
+
 		} catch (ConstraintViolationException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
 		} catch (ArticleException e) {
@@ -142,7 +146,7 @@ public class ArticleController {
 		}
 	}
 	
-	@PostMapping(value = "/authenticate")
+	@PostMapping(value = "/login")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
 		try {
@@ -153,7 +157,6 @@ public class ArticleController {
 		catch (BadCredentialsException e) {
 			throw new Exception("Incorrect username or password", e);
 		}
-
 
 		final UserDetails userDetails = userDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
