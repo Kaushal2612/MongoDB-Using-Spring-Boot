@@ -1,4 +1,4 @@
-package com.article.poetry.repository;
+package com.artshala.repository;
 
 import java.util.Optional;
 
@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.article.poetry.model.User;
+import com.artshala.model.User;
 
 @Repository
-public interface ArticleRepository extends MongoRepository<User, String> {
+public interface UserRepository extends MongoRepository<User, String> {
 
 	@Query("{'uniqueId': ?0 }")
 	Optional<User> findByUniqueId(String id);

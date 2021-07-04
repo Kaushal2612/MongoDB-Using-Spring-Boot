@@ -1,4 +1,4 @@
-package com.article.poetry.service;
+package com.artshala.service;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.article.poetry.repository.ArticleRepository;
+import com.artshala.repository.UserRepository;
 
 /**
  * Get the email as username from the database and return the email and password
@@ -21,11 +21,11 @@ import com.article.poetry.repository.ArticleRepository;
 public class MyUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private ArticleRepository articleRepository;
+	private UserRepository userRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		Optional<com.article.poetry.model.User> userOptional = articleRepository.findByEmail(email);
+		Optional<com.artshala.model.User> userOptional = userRepository.findByEmail(email);
 		return new User(userOptional.get().getEmail(), userOptional.get().getPassword(), new ArrayList<>());
 	}
 

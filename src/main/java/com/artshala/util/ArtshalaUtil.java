@@ -1,4 +1,4 @@
-package com.article.poetry.util;
+package com.artshala.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -8,7 +8,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class PoetryUtil {
+public class ArtshalaUtil {
 
 	
 	/**

@@ -1,4 +1,4 @@
-package com.article.poetry.service;
+package com.artshala.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.article.poetry.exception.ArticleException;
-import com.article.poetry.model.User;
-import com.article.poetry.repository.ArticleRepository;
-import com.article.poetry.util.PoetryUtil;
+import com.artshala.exception.ArtshalaException;
+import com.artshala.model.User;
+import com.artshala.repository.UserRepository;
+import com.artshala.util.ArtshalaUtil;
 
 /**
  * This class implement the services for User operation
@@ -21,10 +21,10 @@ import com.article.poetry.util.PoetryUtil;
  *
  */
 @Service
-public class ArticleServiceImpl implements ArticleService{
+public class UserServiceImpl implements UserService{
 
 	@Autowired
-	private ArticleRepository articleRepository;
+	private UserRepository userRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -33,16 +33,16 @@ public class ArticleServiceImpl implements ArticleService{
 	 * Create the user
 	 */
 	@Override
-	public void createUser(User user) throws ArticleException {
+	public void createUser(User user) throws ArtshalaException {
 		
-		Optional<User> userOptional = articleRepository.findById(user.getId());
+		Optional<User> userOptional = userRepository.findById(user.getId());
 		if (userOptional.isPresent()) {
-			throw new ArticleException(ArticleException.UserNotFoundException(user.getName()));
+			throw new ArtshalaException(ArtshalaException.UserNotFoundException(user.getName()));
 		}
 		else {
-			user.setUniqueId(PoetryUtil.generateUniqueId());
+			user.setUniqueId(ArtshalaUtil.generateUniqueId());
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-			articleRepository.save(user);
+			userRepository.save(user);
 		}
 		
 	}
@@ -50,7 +50,7 @@ public class ArticleServiceImpl implements ArticleService{
 	@Override
 	public List<User> getAllUser() {
 		
-		List<User> userList = articleRepository.findAll();
+		List<User> userList = userRepository.findAll();
 		if(!userList.isEmpty()) {
 			return userList;
 		}
@@ -58,14 +58,14 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 
 	@Override
-	public User getOneUser(String id) throws ArticleException {
+	public User getOneUser(String id) throws ArtshalaException {
 
-		Optional<User> userOptional = articleRepository.findByUniqueId(id);
+		Optional<User> userOptional = userRepository.findByUniqueId(id);
 		if(userOptional.isPresent()) {
 			return userOptional.get();
 		}
 		else {
-			throw new ArticleException(ArticleException.UserNotFoundException(id));
+			throw new ArtshalaException(ArtshalaException.UserNotFoundException(id));
 		}
 
 	}
@@ -74,12 +74,12 @@ public class ArticleServiceImpl implements ArticleService{
 	 * This method is first searching by unique Id, if not found then by Mongodb Id and updating it
 	 */
 	@Override
-	public User updateUser(String id, User userBodyReceived) throws ArticleException {
+	public User updateUser(String id, User userBodyReceived) throws ArtshalaException {
 
-		Optional<User> userOptional = articleRepository.findByUniqueId(id);
+		Optional<User> userOptional = userRepository.findByUniqueId(id);
 		
 		if(!userOptional.isPresent()) {
-			userOptional = articleRepository.findById(id);
+			userOptional = userRepository.findById(id);
 		}
 		
 		if(userOptional.isPresent()) {
@@ -98,26 +98,24 @@ public class ArticleServiceImpl implements ArticleService{
 			// update dob
 			userToUpdate.setDob(userBodyReceived.getDob()!=null ? userBodyReceived.getDob() : userToUpdate.getDob());
 			
-			articleRepository.save(userToUpdate);
+			userRepository.save(userToUpdate);
 			return userToUpdate;
 		
 		} else {
-			throw new ArticleException(ArticleException.UserNotFoundException(id));
+			throw new ArtshalaException(ArtshalaException.UserNotFoundException(id));
 		}
 	}
 
 	@Override
-	public void deleteOneUser(String id) throws ArticleException {
+	public void deleteOneUser(String id) throws ArtshalaException {
 		
-		Optional userOptional = articleRepository.deleteByUniqueId(id);
+		Optional userOptional = userRepository.deleteByUniqueId(id);
 		if(!userOptional.isPresent()) {
-			throw new ArticleException(ArticleException.UserNotFoundException(id));
+			throw new ArtshalaException(ArtshalaException.UserNotFoundException(id));
 		} else {
-			articleRepository.deleteById(id);
+			userRepository.deleteById(id);
 		}
 		
 	}
 
-	
-	
 }

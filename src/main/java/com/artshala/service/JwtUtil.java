@@ -1,4 +1,4 @@
-package com.article.poetry.service;
+package com.artshala.service;
 
 import java.util.Date;
 import java.util.HashMap;

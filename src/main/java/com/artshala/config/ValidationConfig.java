@@ -1,4 +1,4 @@
-package com.article.poetry.config;
+package com.artshala.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

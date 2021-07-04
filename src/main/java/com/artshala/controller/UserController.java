@@ -1,4 +1,4 @@
-package com.article.poetry.controller;
+package com.artshala.controller;
 
 import java.util.List;
 
@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.article.poetry.exception.ArticleException;
-import com.article.poetry.model.AuthenticationRequest;
-import com.article.poetry.model.AuthenticationResponse;
-import com.article.poetry.model.User;
-import com.article.poetry.repository.ArticleRepository;
-import com.article.poetry.service.ArticleService;
-import com.article.poetry.service.JwtUtil;
-import com.article.poetry.service.MyUserDetailsService;
+import com.artshala.exception.ArtshalaException;
+import com.artshala.model.AuthenticationRequest;
+import com.artshala.model.AuthenticationResponse;
+import com.artshala.model.User;
+import com.artshala.repository.UserRepository;
+import com.artshala.service.JwtUtil;
+import com.artshala.service.MyUserDetailsService;
+import com.artshala.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,13 +39,13 @@ import io.swagger.annotations.Authorization;
  */
 @Api(value = "Operation pertaining to user")
 @RestController
-public class ArticleController {
+public class UserController {
 
 	@Autowired
-	ArticleRepository articleRepository;
+	UserRepository userRepository;
 
 	@Autowired
-	private ArticleService articleService;
+	private UserService userService;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -64,7 +64,7 @@ public class ArticleController {
 	@GetMapping("/readUser")
 	public ResponseEntity<?> readAllUser(){
 		
-		List<User> user = articleService.getAllUser();
+		List<User> user = userService.getAllUser();
 		return new ResponseEntity<>(user, user.size() > 0 ? HttpStatus.OK : HttpStatus.NOT_FOUND );
 	}
 
@@ -78,7 +78,7 @@ public class ArticleController {
 	@PostMapping("/signUp")
 	public ResponseEntity<?> createUser(@RequestBody User user){
 		try {
-			articleService.createUser(user);
+			userService.createUser(user);
 			final UserDetails userDetails = userDetailsService
 					.loadUserByUsername(user.getEmail());
 
@@ -87,7 +87,7 @@ public class ArticleController {
 
 		} catch (ConstraintViolationException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
-		} catch (ArticleException e) {
+		} catch (ArtshalaException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -102,7 +102,7 @@ public class ArticleController {
 	public ResponseEntity<?> readOneUser(@PathVariable String id){
 
 		try {
-			return new ResponseEntity<User>(articleService.getOneUser(id), HttpStatus.OK);
+			return new ResponseEntity<User>(userService.getOneUser(id), HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>("User not found with id "+id, HttpStatus.NOT_FOUND);
 		}
@@ -119,11 +119,11 @@ public class ArticleController {
 	public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody User userBodyReceived){
 
 		try {
-			articleService.updateUser(id, userBodyReceived);
+			userService.updateUser(id, userBodyReceived);
 			return new ResponseEntity<>("Updated User with id " + id, HttpStatus.OK);
 		} catch (ConstraintViolationException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
-		} catch (ArticleException e) {
+		} catch (ArtshalaException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -138,7 +138,7 @@ public class ArticleController {
 	public ResponseEntity<?> deleteUser(@PathVariable("id") String id){
 		
 		try{
-			articleService.deleteOneUser(id);
+			userService.deleteOneUser(id);
 			return new ResponseEntity<>("Successfully deleted user with id " + id, HttpStatus.OK);
 		}
 		catch(Exception e) {

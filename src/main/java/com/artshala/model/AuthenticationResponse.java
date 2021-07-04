@@ -1,5 +1,10 @@
-package com.article.poetry.model;
+package com.artshala.model;
 
+/**
+ * This is the authentication response class for jwt token
+ * @author nehaj
+ *
+ */
 public class AuthenticationResponse {
 
 	private final String jwt;

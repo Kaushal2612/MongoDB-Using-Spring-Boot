@@ -1,13 +1,18 @@
-package com.article.poetry.exception;
+package com.artshala.exception;
 
-public class ArticleException extends Exception {
+/**
+ * This class handles artshala exception
+ * @author Kaushal Jhawar
+ *
+ */
+public class ArtshalaException extends Exception {
 
 	/**
 	 *  https://stackoverflow.com/questions/285793/what-is-a-serialversionuid-and-why-should-i-use-it
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ArticleException(String message) {
+	public ArtshalaException(String message) {
 		super(message);
 	}
 

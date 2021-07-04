@@ -1,4 +1,4 @@
-package com.article.poetry.model;
+package com.artshala.model;
 
 import java.util.Date;
 

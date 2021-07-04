@@ -1,4 +1,4 @@
-package com.article.poetry.security;
+package com.artshala.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +13,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.article.poetry.filter.JwtRequestFilter;
-import com.article.poetry.service.MyUserDetailsService;
+import com.artshala.filter.JwtRequestFilter;
+import com.artshala.service.MyUserDetailsService;
 
 import io.swagger.models.HttpMethod;
 

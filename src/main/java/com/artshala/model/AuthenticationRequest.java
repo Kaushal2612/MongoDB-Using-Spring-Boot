@@ -1,5 +1,10 @@
-package com.article.poetry.model;
+package com.artshala.model;
 
+/**
+ * This is the authentication request class to get username and password
+ * @author nehaj
+ *
+ */
 public class AuthenticationRequest {
 
 	private String username;

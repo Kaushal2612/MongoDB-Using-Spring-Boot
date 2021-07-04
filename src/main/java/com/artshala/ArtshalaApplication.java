@@ -1,13 +1,13 @@
-package com.article.poetry;
+package com.artshala;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ArticleApplication {
+public class ArtshalaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ArticleApplication.class, args);
+		SpringApplication.run(ArtshalaApplication.class, args);
 	}
 
 }

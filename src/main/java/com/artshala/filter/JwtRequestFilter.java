@@ -1,4 +1,4 @@
-package com.article.poetry.filter;
+package com.artshala.filter;
 
 import java.io.IOException;
 
@@ -15,8 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.article.poetry.service.JwtUtil;
-import com.article.poetry.service.MyUserDetailsService;
+import com.artshala.service.JwtUtil;
+import com.artshala.service.MyUserDetailsService;
 
 /**
  * Get the Authorization from the header parameter and filter the jwt token
