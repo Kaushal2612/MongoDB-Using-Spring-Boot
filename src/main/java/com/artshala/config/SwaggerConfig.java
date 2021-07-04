@@ -34,7 +34,7 @@ public class SwaggerConfig {
 	      .securityContexts(Arrays.asList(securityContext()))
 	      .securitySchemes(Arrays.asList(apiKey()))
 	      .select()
-	      .apis(RequestHandlerSelectors.basePackage("com.article.poetry.controller"))
+	      .apis(RequestHandlerSelectors.basePackage("com.artshala.controller"))
 	      .paths(PathSelectors.any())
 	      .build()
 	      .apiInfo(apiInfo());

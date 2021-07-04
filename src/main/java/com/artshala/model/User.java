@@ -50,7 +50,11 @@ public class User {
 	@NotEmpty(message = "Password cannot be empty")
 	@NotNull(message = "Password cannot be null")
 	private String password;
-	
+
+	private String phoneNumber;
+
+	private String photo;
+
 	private String description;
 
 	@ApiModelProperty(notes = "Date of birth of User", name = "Date of Birth")
